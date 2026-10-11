@@ -22,7 +22,6 @@ faqItems.forEach((item) => {
   });
 });
 
-
 if (form) {
   const nameInput = document.getElementById('name');
   const emailInput = document.getElementById('email');
@@ -81,13 +80,13 @@ if (form) {
     const role = roleInput.value;
 
     let valid = true;
+    // Require text before and after @, plus a dot and domain suffix.
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (!name) {
       showError(nameInput, nameError, 'Please enter your full name.');
       valid = false;
     }
-
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (!email) {
       showError(
@@ -106,11 +105,8 @@ if (form) {
     }
 
     if (!valid) {
-
       return;
-   }
-
-   
+    }
 
     try {
       const saved = localStorage.getItem(storageKey);
@@ -163,7 +159,6 @@ if (form) {
   });
 }
 
-
 if (navToggle && navLinks) {
   navToggle.addEventListener('click', () => {
     navLinks.classList.toggle('is-open');
@@ -189,26 +184,27 @@ if (latestStats) {
 }
 
 // Interactive event schedule
-const scheduleButtons = document.querySelectorAll(".schedule-toggle");
+const scheduleButtons = document.querySelectorAll('.schedule-toggle');
 
 scheduleButtons.forEach((button) => {
-  button.addEventListener("click", () => {
+  button.addEventListener('click', () => {
     const details = button.nextElementSibling;
-    const isExpanded = button.getAttribute("aria-expanded") === "true";
+    const isExpanded = button.getAttribute('aria-expanded') === 'true';
 
-    button.setAttribute("aria-expanded", String(!isExpanded));
+    button.setAttribute('aria-expanded', String(!isExpanded));
     details.hidden = isExpanded;
   });
 });
+
 // Click a schedule time to show or hide event details
-const scheduleTimes = document.querySelectorAll(".schedule-time");
+const scheduleTimes = document.querySelectorAll('.schedule-time');
 
 scheduleTimes.forEach((button) => {
-  button.addEventListener("click", () => {
+  button.addEventListener('click', () => {
     const details = button.nextElementSibling;
-    const isExpanded = button.getAttribute("aria-expanded") === "true";
+    const isExpanded = button.getAttribute('aria-expanded') === 'true';
 
-    button.setAttribute("aria-expanded", String(!isExpanded));
+    button.setAttribute('aria-expanded', String(!isExpanded));
     details.hidden = isExpanded;
   });
 });
