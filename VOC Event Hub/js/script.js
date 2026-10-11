@@ -106,7 +106,7 @@ if (form) {
     }
 
     if (!valid) {
-      
+
       return;
    }
 
@@ -187,3 +187,28 @@ const latestStats = document.querySelector('.faq-item .faq-answer');
 if (latestStats) {
   latestStats.textContent = 'Seats are filling quickly for this year\'s workshop.';
 }
+
+// Interactive event schedule
+const scheduleButtons = document.querySelectorAll(".schedule-toggle");
+
+scheduleButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    const details = button.nextElementSibling;
+    const isExpanded = button.getAttribute("aria-expanded") === "true";
+
+    button.setAttribute("aria-expanded", String(!isExpanded));
+    details.hidden = isExpanded;
+  });
+});
+// Click a schedule time to show or hide event details
+const scheduleTimes = document.querySelectorAll(".schedule-time");
+
+scheduleTimes.forEach((button) => {
+  button.addEventListener("click", () => {
+    const details = button.nextElementSibling;
+    const isExpanded = button.getAttribute("aria-expanded") === "true";
+
+    button.setAttribute("aria-expanded", String(!isExpanded));
+    details.hidden = isExpanded;
+  });
+});

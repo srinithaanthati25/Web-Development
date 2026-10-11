@@ -63,8 +63,6 @@
     submit your details to an event organizer.
   </p>
 </section>
-
-
       <section id="about" class="content-section">
         <h2>About the event</h2>
         <p>
@@ -77,26 +75,42 @@
         </p>
       </section>
 
-      <section id="schedule" class="content-section">
-        <h2>Schedule</h2>
-        <div class="schedule-grid">
-          <article class="schedule-card">
-            <span class="time">09:00</span>
-            <h3>Welcome and kickoff</h3>
-            <p>Set expectations and understand workshop goals.</p>
-          </article>
-          <article class="schedule-card">
-            <span class="time">10:30</span>
-            <h3>Domain mapping</h3>
-            <p>Break down real challenges into opportunities.</p>
-          </article>
-          <article class="schedule-card">
-            <span class="time">13:00</span>
-            <h3>Hands-on prototyping</h3>
-            <p>Turn ideas into experience sketches and working prototypes.</p>
-          </article>
-        </div>
-      </section>
+<section id="schedule" class="content-section">
+  <h2>Schedule</h2>
+  <p class="schedule-intro">Click a time to view the event details.</p>
+
+  <div class="schedule-grid">
+    <article class="schedule-card">
+      <button class="time schedule-time" type="button" aria-expanded="false">
+        09:00
+      </button>
+      <div class="schedule-details" hidden>
+        <h3>Welcome and kickoff</h3>
+        <p>Set expectations and understand workshop goals.</p>
+      </div>
+    </article>
+
+    <article class="schedule-card">
+      <button class="time schedule-time" type="button" aria-expanded="false">
+        10:30
+      </button>
+      <div class="schedule-details" hidden>
+        <h3>Domain mapping</h3>
+        <p>Break down real challenges into opportunities.</p>
+      </div>
+    </article>
+
+    <article class="schedule-card">
+      <button class="time schedule-time" type="button" aria-expanded="false">
+        13:00
+      </button>
+      <div class="schedule-details" hidden>
+        <h3>Hands-on prototyping</h3>
+        <p>Turn ideas into experience sketches and working prototypes.</p>
+      </div>
+    </article>
+  </div>
+</section>
 
       <section id="speakers" class="content-section">
         <h2>Featured speakers</h2>
