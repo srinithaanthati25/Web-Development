@@ -22,6 +22,7 @@ faqItems.forEach((item) => {
   });
 });
 
+
 if (form) {
   const nameInput = document.getElementById('name');
   const emailInput = document.getElementById('email');
@@ -53,12 +54,19 @@ if (form) {
     formMessage.hidden = false;
   }
 
+  // Hide validation messages when the page first loads.
+  clearError(nameInput, nameError);
+  clearError(emailInput, emailError);
+  formMessage.hidden = true;
+
   nameInput.addEventListener('input', () => {
     clearError(nameInput, nameError);
+    formMessage.hidden = true;
   });
 
   emailInput.addEventListener('input', () => {
     clearError(emailInput, emailError);
+    formMessage.hidden = true;
   });
 
   form.addEventListener('submit', (event) => {
@@ -82,17 +90,27 @@ if (form) {
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (!email) {
-      showError(emailInput, emailError, 'Please enter your email.');
+      showError(
+        emailInput,
+        emailError,
+        'Please enter your email address.'
+      );
       valid = false;
     } else if (!emailPattern.test(email)) {
-      showError(emailInput, emailError, 'Please enter a valid email.');
+      showError(
+        emailInput,
+        emailError,
+        'Invalid email format. Please enter a valid email address.'
+      );
       valid = false;
     }
 
     if (!valid) {
-      showMessage('Please correct the errors above.', false);
+      
       return;
-    }
+   }
+
+   
 
     try {
       const saved = localStorage.getItem(storageKey);
@@ -104,7 +122,7 @@ if (form) {
 
       const duplicate = registrations.some(
         (registration) =>
-          registration.email &&
+          typeof registration.email === 'string' &&
           registration.email.toLowerCase() === email
       );
 
@@ -125,7 +143,10 @@ if (form) {
         registeredAt: new Date().toISOString()
       });
 
-      localStorage.setItem(storageKey, JSON.stringify(registrations));
+      localStorage.setItem(
+        storageKey,
+        JSON.stringify(registrations)
+      );
 
       showMessage(
         'Registration successful! Your details are saved in this browser.',
@@ -141,6 +162,7 @@ if (form) {
     }
   });
 }
+
 
 if (navToggle && navLinks) {
   navToggle.addEventListener('click', () => {
