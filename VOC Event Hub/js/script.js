@@ -23,18 +23,122 @@ faqItems.forEach((item) => {
 });
 
 if (form) {
+  const nameInput = document.getElementById('name');
+  const emailInput = document.getElementById('email');
+  const roleInput = document.getElementById('role');
+
+  const nameError = document.getElementById('name-error');
+  const emailError = document.getElementById('email-error');
+  const formMessage = document.getElementById('form-message');
+
+  const storageKey = 'vocEventRegistrations';
+
+  function clearError(input, errorElement) {
+    errorElement.textContent = '';
+    errorElement.hidden = true;
+    input.removeAttribute('aria-invalid');
+  }
+
+  function showError(input, errorElement, message) {
+    errorElement.textContent = message;
+    errorElement.hidden = false;
+    input.setAttribute('aria-invalid', 'true');
+  }
+
+  function showMessage(message, success) {
+    formMessage.textContent = message;
+    formMessage.className = success
+      ? 'form-message success'
+      : 'form-message error';
+    formMessage.hidden = false;
+  }
+
+  nameInput.addEventListener('input', () => {
+    clearError(nameInput, nameError);
+  });
+
+  emailInput.addEventListener('input', () => {
+    clearError(emailInput, emailError);
+  });
+
   form.addEventListener('submit', (event) => {
     event.preventDefault();
 
-    const name = document.getElementById('name').value.trim();
-    const email = document.getElementById('email').value.trim();
+    clearError(nameInput, nameError);
+    clearError(emailInput, emailError);
+    formMessage.hidden = true;
 
-    if (!name || !email) {
-      alert('Please complete your details before registering.');
+    const name = nameInput.value.trim();
+    const email = emailInput.value.trim().toLowerCase();
+    const role = roleInput.value;
+
+    let valid = true;
+
+    if (!name) {
+      showError(nameInput, nameError, 'Please enter your full name.');
+      valid = false;
+    }
+
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!email) {
+      showError(emailInput, emailError, 'Please enter your email.');
+      valid = false;
+    } else if (!emailPattern.test(email)) {
+      showError(emailInput, emailError, 'Please enter a valid email.');
+      valid = false;
+    }
+
+    if (!valid) {
+      showMessage('Please correct the errors above.', false);
       return;
     }
 
-    form.submit();
+    try {
+      const saved = localStorage.getItem(storageKey);
+      const registrations = saved ? JSON.parse(saved) : [];
+
+      if (!Array.isArray(registrations)) {
+        throw new Error('Invalid registration data');
+      }
+
+      const duplicate = registrations.some(
+        (registration) =>
+          registration.email &&
+          registration.email.toLowerCase() === email
+      );
+
+      if (duplicate) {
+        showError(
+          emailInput,
+          emailError,
+          'This email is already registered.'
+        );
+        showMessage('Please use a different email address.', false);
+        return;
+      }
+
+      registrations.push({
+        name,
+        email,
+        role,
+        registeredAt: new Date().toISOString()
+      });
+
+      localStorage.setItem(storageKey, JSON.stringify(registrations));
+
+      showMessage(
+        'Registration successful! Your details are saved in this browser.',
+        true
+      );
+
+      form.reset();
+    } catch (error) {
+      showMessage(
+        'Unable to save your registration. Please try again.',
+        false
+      );
+    }
   });
 }
 
